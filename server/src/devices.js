@@ -1,16 +1,17 @@
 let devices = [
   {
     id: 1,
-    name: "Router",
-    ip: "192.168.1.1",
-    status: "online",
-    latency: 5
+    name: "Google DNS",
+    ip: "8.8.8.8",
+    status: "unknown",
+    latency: null
   },
+
   {
     id: 2,
-    name: "NAS",
-    ip: "192.168.1.50",
-    status: "offline",
+    name: "Cloudflare DNS",
+    ip: "1.1.1.1",
+    status: "unknown",
     latency: null
   }
 ];
