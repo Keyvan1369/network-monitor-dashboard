@@ -1,0 +1,111 @@
+.device-card{
+
+  width:320px;
+
+  padding:28px;
+
+  border-radius:28px;
+
+  background:rgba(255,255,255,.08);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid rgba(255,255,255,.1);
+
+  box-shadow:
+
+      0 10px 30px rgba(0,0,0,.3);
+
+  transition:.3s;
+
+}
+
+.device-card:hover{
+
+  transform:
+
+    translateY(-8px)
+
+    scale(1.03);
+
+}
+
+.top{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+}
+
+.top h2{
+
+  margin:0;
+
+}
+
+.top p{
+
+  color:#94a3b8;
+
+}
+
+.dot{
+
+  width:18px;
+
+  height:18px;
+
+  border-radius:50%;
+
+}
+
+.online{
+
+  background:#22c55e;
+
+  box-shadow:
+
+    0 0 20px #22c55e;
+
+}
+
+.offline{
+
+  background:#ef4444;
+
+  box-shadow:
+
+    0 0 20px #ef4444;
+
+}
+
+.info{
+
+  margin-top:20px;
+
+  padding:16px;
+
+  border-radius:16px;
+
+  background:rgba(255,255,255,.05);
+
+}
+
+.info span{
+
+  display:block;
+
+  color:#94a3b8;
+
+  margin-bottom:8px;
+
+}
+
+.info strong{
+
+  font-size:1.3rem;
+
+}

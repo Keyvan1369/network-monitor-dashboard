@@ -1,52 +1,83 @@
 import { useEffect, useState } from "react";
 import api from "./services/api";
+import DeviceCard from "./components/DeviceCard";
+import "./App.css";
 
 function App() {
-
   const [devices, setDevices] = useState([]);
 
   useEffect(() => {
-
-    api.get("/devices")
-      .then((res) => {
-
-        setDevices(res.data);
-
-      })
-      .catch((err) => {
-
-        console.error(err);
-
-      });
-
+    api
+      .get("/devices")
+      .then((res) => setDevices(res.data))
+      .catch(console.error);
   }, []);
 
+  const total = devices.length;
+
+  const online = devices.filter(
+    (d) => d.status === "online"
+  ).length;
+
+  const offline = total - online;
+
   return (
+    <div className="app">
 
-    <div>
+      <div className="overlay"></div>
 
-      <h1>Network Monitor Dashboard</h1>
+      <header>
 
-      {devices.map((device) => (
+        <h1>🌐 Network Monitor</h1>
 
-        <div key={device.id}>
+        <p>
+          Monitor your devices in real time
+        </p>
 
-          <h3>{device.name}</h3>
+      </header>
 
-          <p>{device.ip}</p>
+      <section className="stats">
 
-          <p>Status: {device.status}</p>
+        <div className="stat-card">
 
-          <p>Latency: {device.latency}</p>
+          <h2>{total}</h2>
 
-          <hr />
+          <span>Total Devices</span>
 
         </div>
 
-      ))}
+        <div className="stat-card">
+
+          <h2>{online}</h2>
+
+          <span>🟢 Online</span>
+
+        </div>
+
+        <div className="stat-card">
+
+          <h2>{offline}</h2>
+
+          <span>🔴 Offline</span>
+
+        </div>
+
+      </section>
+
+      <section className="devices">
+
+        {devices.map((device) => (
+
+          <DeviceCard
+            key={device.id}
+            device={device}
+          />
+
+        ))}
+
+      </section>
 
     </div>
-
   );
 }
 
