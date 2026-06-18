@@ -50,17 +50,19 @@ header{
 
 }
 
-header h1{
+header h1 {
+  color: #fff;
 
-  font-size:3rem;
+  font-size: 4rem;
 
-  margin-bottom:10px;
-
+  text-shadow:
+    0 0 20px rgba(99,102,241,.6),
+    0 0 40px rgba(59,130,246,.4);
 }
 
 header p{
 
-  color:#cbd5e1;
+  color:#426c9f;
 
   font-size:1.1rem;
 
@@ -96,7 +98,7 @@ header p{
 
   backdrop-filter:blur(20px);
 
-  border:1px solid rgba(255,255,255,.1);
+  border:1px solid rgba(135, 184, 105, 0.1);
 
   text-align:center;
 
