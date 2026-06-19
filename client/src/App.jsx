@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "./services/api";
 import DeviceCard from "./components/DeviceCard";
+import AddDevice from "./components/AddDevice";
 import socket from "./socket";
 import "./App.css";
 
 function App() {
   const [devices, setDevices] = useState([]);
-
 
   useEffect(() => {
     api
@@ -14,7 +14,6 @@ function App() {
       .then((res) => setDevices(res.data))
       .catch(console.error);
   }, []);
-
 
   useEffect(() => {
     socket.on("devicesUpdated", (updatedDevices) => {
@@ -31,7 +30,7 @@ function App() {
   const total = devices.length;
 
   const online = devices.filter(
-    (d) => d.status === "online"
+    (device) => device.status === "online"
   ).length;
 
   const offline = total - online;
@@ -58,15 +57,21 @@ function App() {
         <div className="stat-card">
           <h2>{online}</h2>
 
-          <span> Online</span>
+          <span>🟢 Online</span>
         </div>
 
         <div className="stat-card">
           <h2>{offline}</h2>
 
-          <span> Offline</span>
+          <span>🔴 Offline</span>
         </div>
       </section>
+
+
+
+      <AddDevice />
+
+
 
       <section className="devices">
         {devices.map((device) => (
