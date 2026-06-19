@@ -1,77 +1,97 @@
+import api from "../services/api";
 import "./DeviceCard.css";
 
 function DeviceCard({ device }) {
 
-  const isOnline = device.status === "online";
+  const handleDelete = async () => {
+
+    const confirmed = window.confirm(
+
+      `Delete ${device.name}?`
+
+    );
+
+    if (!confirmed) return;
+
+    try {
+
+      await api.delete(
+
+        `/devices/${device.id}`
+
+      );
+
+    }
+
+    catch (err) {
+
+      console.error(err);
+
+      alert("Failed to delete device");
+
+    }
+
+  };
 
   return (
 
     <div className="device-card">
 
-      <div className="top">
+      <button
 
-        <div>
+        className="delete-btn"
 
-          <h2>{device.name}</h2>
+        onClick={handleDelete}
 
-          <p>{device.ip}</p>
+      >
 
-        </div>
+        🗑
 
-        <div
+      </button>
 
-          className={`dot ${
-            isOnline
+      <h2>
 
-              ? "online"
+        {device.name}
 
-              : "offline"
+      </h2>
 
-          }`}
+      <p>
 
-        />
+        {device.ip}
 
-      </div>
+      </p>
 
-      <div className="info">
+      <div
 
-        <span>Status</span>
+        className={`status ${device.status}`}
 
-        <strong>
+      >
 
-          {
+        {
 
-            isOnline
+          device.status === "online"
 
-            ? "🟢 Online"
+          ? "🟢 Online"
 
-            : "🔴 Offline"
+          : "🔴 Offline"
 
-          }
-
-        </strong>
+        }
 
       </div>
 
-      <div className="info">
+      {
 
-        <span>Latency</span>
+        device.latency && (
 
-        <strong>
+          <p className="latency">
 
-          {
+            {device.latency} ms
 
-            device.latency
+          </p>
 
-            ? `${device.latency} ms`
+        )
 
-            : "--"
-
-          }
-
-        </strong>
-
-      </div>
+      }
 
     </div>
 
