@@ -6,7 +6,6 @@ const prisma = require("../prisma");
 
 
 
-
 router.get("/", async (req, res) => {
 
   try {
@@ -15,9 +14,9 @@ router.get("/", async (req, res) => {
 
       orderBy: {
 
-        id: "asc"
+        id: "asc",
 
-      }
+      },
 
     });
 
@@ -31,15 +30,13 @@ router.get("/", async (req, res) => {
 
     res.status(500).json({
 
-      message: "Failed to fetch devices"
+      message: "Failed to fetch devices",
 
     });
 
   }
 
 });
-
-
 
 
 
@@ -59,9 +56,9 @@ router.post("/", async (req, res) => {
 
         status: "offline",
 
-        latency: null
+        latency: null,
 
-      }
+      },
 
     });
 
@@ -75,12 +72,53 @@ router.post("/", async (req, res) => {
 
     res.status(500).json({
 
-      message: "Failed to create device"
+      message: "Failed to create device",
 
     });
 
   }
 
 });
+
+
+
+router.delete("/:id", async (req, res) => {
+
+  try {
+
+    const id = parseInt(req.params.id);
+
+    await prisma.device.delete({
+
+      where: {
+
+        id,
+
+      },
+
+    });
+
+    res.json({
+
+      message: "Device deleted successfully",
+
+    });
+
+  }
+
+  catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+
+      message: "Failed to delete device",
+
+    });
+
+  }
+
+});
+
 
 module.exports = router;
