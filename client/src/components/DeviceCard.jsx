@@ -1,9 +1,10 @@
 import api from "../services/api";
 import "./DeviceCard.css";
 
-function DeviceCard({ device }) {
+function DeviceCard({ device, onEditClick }) {
 
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
+    e.stopPropagation();
     const confirmed = window.confirm(`Delete ${device.name}?`);
     if (!confirmed) return;
 
@@ -16,8 +17,7 @@ function DeviceCard({ device }) {
   };
 
   return (
-    <div className="device-card">
-
+    <div className="device-card" onClick={onEditClick} style={{ cursor: 'pointer' }}>
       <button className="delete-btn" onClick={handleDelete} title="Delete Device">
         ✕
       </button>
@@ -26,7 +26,7 @@ function DeviceCard({ device }) {
       <p className="device-ip">{device.ip}</p>
 
       <div className="status-container">
-            <div className={`status-badge ${device.status}`}>
+        <div className={`status-badge ${device.status}`}>
           <span className="dot"></span>
           {device.status === "online" ? "Online" : "Offline"}
         </div>

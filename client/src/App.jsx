@@ -4,9 +4,14 @@ import DeviceCard from "./components/DeviceCard";
 import AddDevice from "./components/AddDevice";
 import socket from "./socket";
 import "./App.css";
+import EditDeviceModal from "./components/EditDeviceModal";
 
 function App() {
   const [devices, setDevices] = useState([]);
+
+ 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDevice, setSelectedDevice] = useState(null);
 
   useEffect(() => {
     api
@@ -18,7 +23,6 @@ function App() {
   useEffect(() => {
     socket.on("devicesUpdated", (updatedDevices) => {
       console.log("Devices updated:", updatedDevices);
-
       setDevices(updatedDevices);
     });
 
@@ -27,12 +31,20 @@ function App() {
     };
   }, []);
 
+
+  const handleEditClick = (device) => {
+    setSelectedDevice(device);
+    setIsModalOpen(true);
+  };
+
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedDevice(null);
+  };
+
   const total = devices.length;
-
-  const online = devices.filter(
-    (device) => device.status === "online"
-  ).length;
-
+  const online = devices.filter((device) => device.status === "online").length;
   const offline = total - online;
 
   return (
@@ -41,46 +53,42 @@ function App() {
 
       <header>
         <h1> Network Monitor</h1>
-
-        <p>
-          Monitor your devices in real time
-        </p>
+        <p>Monitor your devices in real time</p>
       </header>
 
       <section className="stats">
         <div className="stat-card">
           <h2>{total}</h2>
-
           <span>Total Devices</span>
         </div>
-
         <div className="stat-card">
           <h2>{online}</h2>
-
           <span>🟢 Online</span>
         </div>
-
         <div className="stat-card">
           <h2>{offline}</h2>
-
           <span>🔴 Offline</span>
         </div>
       </section>
 
-
-
       <AddDevice />
-
-
 
       <section className="devices">
         {devices.map((device) => (
           <DeviceCard
             key={device.id}
             device={device}
+            onEditClick={() => handleEditClick(device)}
           />
         ))}
       </section>
+
+
+      <EditDeviceModal
+        isOpen={isModalOpen}
+        device={selectedDevice}
+        onClose={handleModalClose}
+      />
     </div>
   );
 }
