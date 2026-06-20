@@ -6,6 +6,8 @@ const prisma = require("../prisma");
 
 
 
+
+
 router.get("/", async (req, res) => {
 
   try {
@@ -37,6 +39,7 @@ router.get("/", async (req, res) => {
   }
 
 });
+
 
 
 
@@ -82,6 +85,7 @@ router.post("/", async (req, res) => {
 
 
 
+
 router.delete("/:id", async (req, res) => {
 
   try {
@@ -119,6 +123,53 @@ router.delete("/:id", async (req, res) => {
   }
 
 });
+
+
+
+router.put("/:id", async (req, res) => {
+
+  try {
+
+    const id = parseInt(req.params.id);
+
+    const { name, ip } = req.body;
+
+    const updatedDevice = await prisma.device.update({
+
+      where: {
+
+        id,
+
+      },
+
+      data: {
+
+        name,
+
+        ip,
+
+      },
+
+    });
+
+    res.json(updatedDevice);
+
+  }
+
+  catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+
+      message: "Failed to update device",
+
+    });
+
+  }
+
+});
+
 
 
 module.exports = router;
