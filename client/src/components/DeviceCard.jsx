@@ -4,99 +4,41 @@ import "./DeviceCard.css";
 function DeviceCard({ device }) {
 
   const handleDelete = async () => {
-
-    const confirmed = window.confirm(
-
-      `Delete ${device.name}?`
-
-    );
-
+    const confirmed = window.confirm(`Delete ${device.name}?`);
     if (!confirmed) return;
 
     try {
-
-      await api.delete(
-
-        `/devices/${device.id}`
-
-      );
-
-    }
-
-    catch (err) {
-
+      await api.delete(`/devices/${device.id}`);
+    } catch (err) {
       console.error(err);
-
       alert("Failed to delete device");
-
     }
-
   };
 
   return (
-
     <div className="device-card">
 
-      <button
-
-        className="delete-btn"
-
-        onClick={handleDelete}
-
-      >
-
-        🗑
-
+      <button className="delete-btn" onClick={handleDelete} title="Delete Device">
+        ✕
       </button>
 
-      <h2>
+      <h2>{device.name}</h2>
+      <p className="device-ip">{device.ip}</p>
 
-        {device.name}
+      <div className="status-container">
+            <div className={`status-badge ${device.status}`}>
+          <span className="dot"></span>
+          {device.status === "online" ? "Online" : "Offline"}
+        </div>
 
-      </h2>
-
-      <p>
-
-        {device.ip}
-
-      </p>
-
-      <div
-
-        className={`status ${device.status}`}
-
-      >
-
-        {
-
-          device.status === "online"
-
-          ? "🟢 Online"
-
-          : "🔴 Offline"
-
-        }
-
+        {device.latency && (
+          <div className="latency-badge">
+            <span>⚡</span> {device.latency} ms
+          </div>
+        )}
       </div>
-
-      {
-
-        device.latency && (
-
-          <p className="latency">
-
-            {device.latency} ms
-
-          </p>
-
-        )
-
-      }
-
     </div>
-
   );
-
 }
 
 export default DeviceCard;
