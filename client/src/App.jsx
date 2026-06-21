@@ -8,8 +8,7 @@ import EditDeviceModal from "./components/EditDeviceModal";
 
 function App() {
   const [devices, setDevices] = useState([]);
-
- 
+  const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDevice, setSelectedDevice] = useState(null);
 
@@ -31,17 +30,21 @@ function App() {
     };
   }, []);
 
-
   const handleEditClick = (device) => {
     setSelectedDevice(device);
     setIsModalOpen(true);
   };
 
-
   const handleModalClose = () => {
     setIsModalOpen(false);
     setSelectedDevice(null);
   };
+
+  const filteredDevices = devices.filter(
+    (device) =>
+      device.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      device.ip.includes(searchQuery)
+  );
 
   const total = devices.length;
   const online = devices.filter((device) => device.status === "online").length;
@@ -71,10 +74,20 @@ function App() {
         </div>
       </section>
 
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search devices by name or IP..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="search-input"
+        />
+      </div>
+
       <AddDevice />
 
       <section className="devices">
-        {devices.map((device) => (
+        {filteredDevices.map((device) => (
           <DeviceCard
             key={device.id}
             device={device}
@@ -82,7 +95,6 @@ function App() {
           />
         ))}
       </section>
-
 
       <EditDeviceModal
         isOpen={isModalOpen}

@@ -303,3 +303,35 @@ header p {
   }
 
 }
+.search-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto 30px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  color: #ffffff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.search-input::placeholder {
+  color: #64748b;
+}
+
+.search-input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2), 0 8px 24px rgba(0, 0, 0, 0.2);
+}
