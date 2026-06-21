@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import api from "./services/api";
 import DeviceCard from "./components/DeviceCard";
 import AddDevice from "./components/AddDevice";
-import socket from "./socket";
-import "./App.css";
 import EditDeviceModal from "./components/EditDeviceModal";
+import Charts from "./components/Charts";
+import socket from "./socket";
+
+import "./App.css";
 
 function App() {
   const [devices, setDevices] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDevice, setSelectedDevice] = useState(null);
 
@@ -22,6 +25,7 @@ function App() {
   useEffect(() => {
     socket.on("devicesUpdated", (updatedDevices) => {
       console.log("Devices updated:", updatedDevices);
+
       setDevices(updatedDevices);
     });
 
@@ -42,12 +46,18 @@ function App() {
 
   const filteredDevices = devices.filter(
     (device) =>
-      device.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      device.name
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
       device.ip.includes(searchQuery)
   );
 
   const total = devices.length;
-  const online = devices.filter((device) => device.status === "online").length;
+
+  const online = devices.filter(
+    (device) => device.status === "online"
+  ).length;
+
   const offline = total - online;
 
   return (
@@ -55,21 +65,29 @@ function App() {
       <div className="overlay"></div>
 
       <header>
-        <h1> Network Monitor</h1>
-        <p>Monitor your devices in real time</p>
+        <h1>Network Monitor</h1>
+
+        <p>
+          Monitor your devices in real time
+        </p>
       </header>
 
       <section className="stats">
         <div className="stat-card">
           <h2>{total}</h2>
+
           <span>Total Devices</span>
         </div>
+
         <div className="stat-card">
           <h2>{online}</h2>
+
           <span>🟢 Online</span>
         </div>
+
         <div className="stat-card">
           <h2>{offline}</h2>
+
           <span>🔴 Offline</span>
         </div>
       </section>
@@ -79,7 +97,9 @@ function App() {
           type="text"
           placeholder="Search devices by name or IP..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) =>
+            setSearchQuery(e.target.value)
+          }
           className="search-input"
         />
       </div>
@@ -91,10 +111,14 @@ function App() {
           <DeviceCard
             key={device.id}
             device={device}
-            onEditClick={() => handleEditClick(device)}
+            onEditClick={() =>
+              handleEditClick(device)
+            }
           />
         ))}
       </section>
+
+      <Charts devices={devices} />
 
       <EditDeviceModal
         isOpen={isModalOpen}
